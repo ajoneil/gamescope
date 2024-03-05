@@ -125,6 +125,18 @@ namespace gamescope
 
 		drmModePlane *GetModePlane() const { return m_pPlane.get(); }
 
+		struct ExtendedColorProperties {
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_DEGAMMA_TF;
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_DEGAMMA_LUT;
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_CTM;
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_HDR_MULT;
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_SHAPER_LUT;
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_SHAPER_TF;
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_LUT3D;
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_BLEND_TF;
+			std::optional<CDRMAtomicProperty> VALVE1_PLANE_BLEND_LUT;
+		};
+
 		struct PlaneProperties
 		{
 			std::optional<CDRMAtomicProperty> *begin() { return &FB_ID; }
@@ -148,15 +160,7 @@ namespace gamescope
 			std::optional<CDRMAtomicProperty> rotation;
 			std::optional<CDRMAtomicProperty> COLOR_ENCODING;
 			std::optional<CDRMAtomicProperty> COLOR_RANGE;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_DEGAMMA_TF;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_DEGAMMA_LUT;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_CTM;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_HDR_MULT;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_SHAPER_LUT;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_SHAPER_TF;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_LUT3D;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_BLEND_TF;
-			std::optional<CDRMAtomicProperty> VALVE1_PLANE_BLEND_LUT;
+			ExtendedColorProperties extended_color_properties;
 			std::optional<CDRMAtomicProperty> DUMMY_END;
 		};
 		      PlaneProperties &GetProperties()       { return m_Props; }
@@ -1313,32 +1317,32 @@ void finish_drm(struct drm_t *drm)
 		//if ( pPlane->GetProperties().zpos )
 		//	pPlane->GetProperties().zpos->SetPendingValue( req, , true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_DEGAMMA_TF )
-			pPlane->GetProperties().VALVE1_PLANE_DEGAMMA_TF->SetPendingValue( req, DRM_VALVE1_TRANSFER_FUNCTION_DEFAULT, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_DEGAMMA_TF )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_DEGAMMA_TF->SetPendingValue( req, DRM_VALVE1_TRANSFER_FUNCTION_DEFAULT, true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_DEGAMMA_LUT )
-			pPlane->GetProperties().VALVE1_PLANE_DEGAMMA_LUT->SetPendingValue( req, 0, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_DEGAMMA_LUT )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_DEGAMMA_LUT->SetPendingValue( req, 0, true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_CTM )
-			pPlane->GetProperties().VALVE1_PLANE_CTM->SetPendingValue( req, 0, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_CTM )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_CTM->SetPendingValue( req, 0, true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_HDR_MULT )
-			pPlane->GetProperties().VALVE1_PLANE_HDR_MULT->SetPendingValue( req, 0x100000000ULL, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_HDR_MULT )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_HDR_MULT->SetPendingValue( req, 0x100000000ULL, true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_SHAPER_TF )
-			pPlane->GetProperties().VALVE1_PLANE_SHAPER_TF->SetPendingValue( req, DRM_VALVE1_TRANSFER_FUNCTION_DEFAULT, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_SHAPER_TF )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_SHAPER_TF->SetPendingValue( req, DRM_VALVE1_TRANSFER_FUNCTION_DEFAULT, true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_SHAPER_LUT )
-			pPlane->GetProperties().VALVE1_PLANE_SHAPER_LUT->SetPendingValue( req, 0, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_SHAPER_LUT )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_SHAPER_LUT->SetPendingValue( req, 0, true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_LUT3D )
-			pPlane->GetProperties().VALVE1_PLANE_LUT3D->SetPendingValue( req, 0, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_LUT3D )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_LUT3D->SetPendingValue( req, 0, true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_BLEND_TF )
-			pPlane->GetProperties().VALVE1_PLANE_BLEND_TF->SetPendingValue( req, DRM_VALVE1_TRANSFER_FUNCTION_DEFAULT, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_BLEND_TF )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_BLEND_TF->SetPendingValue( req, DRM_VALVE1_TRANSFER_FUNCTION_DEFAULT, true );
 
-		if ( pPlane->GetProperties().VALVE1_PLANE_BLEND_LUT )
-			pPlane->GetProperties().VALVE1_PLANE_BLEND_LUT->SetPendingValue( req, 0, true );
+		if ( pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_BLEND_LUT )
+			pPlane->GetProperties().extended_color_properties.VALVE1_PLANE_BLEND_LUT->SetPendingValue( req, 0, true );
 	}
 
 	// We can't do a non-blocking commit here or else risk EBUSY in case the
@@ -1880,15 +1884,15 @@ namespace gamescope
 			m_Props.rotation                 = CDRMAtomicProperty::Instantiate( "rotation",                 this, *rawProperties );
 			m_Props.COLOR_ENCODING           = CDRMAtomicProperty::Instantiate( "COLOR_ENCODING",           this, *rawProperties );
 			m_Props.COLOR_RANGE              = CDRMAtomicProperty::Instantiate( "COLOR_RANGE",              this, *rawProperties );
-			m_Props.VALVE1_PLANE_DEGAMMA_TF  = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_DEGAMMA_TF",  this, *rawProperties );
-			m_Props.VALVE1_PLANE_DEGAMMA_LUT = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_DEGAMMA_LUT", this, *rawProperties );
-			m_Props.VALVE1_PLANE_CTM         = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_CTM",         this, *rawProperties );
-			m_Props.VALVE1_PLANE_HDR_MULT    = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_HDR_MULT",    this, *rawProperties );
-			m_Props.VALVE1_PLANE_SHAPER_LUT  = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_SHAPER_LUT",  this, *rawProperties );
-			m_Props.VALVE1_PLANE_SHAPER_TF   = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_SHAPER_TF",   this, *rawProperties );
-			m_Props.VALVE1_PLANE_LUT3D       = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_LUT3D",       this, *rawProperties );
-			m_Props.VALVE1_PLANE_BLEND_TF    = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_BLEND_TF",    this, *rawProperties );
-			m_Props.VALVE1_PLANE_BLEND_LUT   = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_BLEND_LUT",   this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_DEGAMMA_TF  = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_DEGAMMA_TF",  this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_DEGAMMA_LUT = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_DEGAMMA_LUT", this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_CTM         = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_CTM",         this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_HDR_MULT    = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_HDR_MULT",    this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_SHAPER_LUT  = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_SHAPER_LUT",  this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_SHAPER_TF   = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_SHAPER_TF",   this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_LUT3D       = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_LUT3D",       this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_BLEND_TF    = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_BLEND_TF",    this, *rawProperties );
+			m_Props.extended_color_properties.VALVE1_PLANE_BLEND_LUT   = CDRMAtomicProperty::Instantiate( "VALVE1_PLANE_BLEND_LUT",   this, *rawProperties );
 		}
 	}
 
@@ -2995,7 +2999,7 @@ bool drm_supports_color_mgmt(struct drm_t *drm)
 	if ( !drm->pPrimaryPlane )
 		return false;
 
-	return drm->pPrimaryPlane->GetProperties().VALVE1_PLANE_CTM.has_value();
+	return drm->pPrimaryPlane->GetProperties().extended_color_properties.VALVE1_PLANE_CTM.has_value();
 }
 
 std::span<const uint32_t> drm_get_valid_refresh_rates( struct drm_t *drm )
